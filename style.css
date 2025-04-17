@@ -1,0 +1,190 @@
+:root {
+    --black: #0a0a0a;
+    --red: #dd0031;
+    --gold: #ffd700;
+    --aqua: #7fffd4;
+    --glass: rgba(255, 255, 255, 0.15);
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #e0f7fa 0%, #c8e6c9 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    backdrop-filter: blur(5px);
+    position: relative;
+    overflow: hidden;
+}
+
+body::before {
+    content: '';
+    position: absolute;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, var(--aqua) 0%, transparent 70%);
+    opacity: 0.1;
+    animation: bubbleFlow 20s infinite linear;
+}
+
+.chat-container {
+    width: 90%;
+    max-width: 800px;
+    background: var(--glass);
+    border-radius: 20px;
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    position: relative;
+    transform: translateY(0);
+    animation: float 6s ease-in-out infinite;
+}
+
+.chat-container::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 20px;
+    padding: 2px;
+    background: linear-gradient(45deg, var(--black), var(--red), var(--gold));
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-compsite: xor;
+    mask-composite: exclude;
+}
+
+.chat-messages {
+    height: 60vh;
+    padding: 20px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.chat-messages::-webkit-scrollbar {
+    width: 8px;
+}
+
+.chat-messages::-webkit-scrollbar-track {
+    background: linear-gradient(var(--black) 0%, var(--red) 50%, var(--gold) 100%);
+    border-radius: 4px;
+}
+
+.chat-messages::-webkit-scrollbar-thumb {
+    background: var(--glass);
+    border-radius: 4px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.input-container {
+    display: flex;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0,2);
+    backdrop-filter: blur(5px);
+    border-top: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+#user-input {
+    flex: 1;
+    padding: 15px 20px;
+    border: none;
+    border-radius: 30px;
+    background: rgba(255, 255, 255, 0.9);
+    font-size: 16px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+#user-input:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px var(--gold), 0 8px 15px rgba(0, 0, 0, 0.1);
+    transform: scale(1.02);
+}
+
+
+button {
+    margin-left: 15px;
+    padding: 15px 25px;
+    border: none;
+    border-radius: 30px;
+    background: linear-gradient(135deg, var(--black) 0%, var(--red) 100%);
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+button::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transform: rotate(45deg);
+    animation: buttonShine 3s infinite;
+}
+
+button:hover {
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(20px); }
+}
+
+@keyframes buttonShine {
+    0% { left: -50%; }
+    100% { left: 150%; }
+}
+
+@keyframes bubbleFlow {
+    0% { transform: translate(0, 0); }
+    33% {transform: translate(50px, 50px); }
+    66% { transform: translate(-30px, 80px); }
+    100% { transform: translate(0, 0); }
+}
+
+.message {
+    max-width: 70%;
+    padding: 15px 25px;
+    border-radius: 25px;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: messageAppear 0.4s ease-out forwards;
+    position: relative;
+}
+
+.user-message {
+    align-self: flex-start;
+    background: linear-gradient(135deg, var(--gold), #fff3bf);
+    color: var(--black);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+@keyframes messageAppear {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.message::after {
+    right: 10px;
+    transform: rotate(-45deg);
+}
+
+.bot-message::after {
+    left: 10px;
+    transform: rotate(45deg);
+}
