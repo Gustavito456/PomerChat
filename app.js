@@ -42,4 +42,34 @@ async function getGeminiResponse(prompt) {
     return data.candidates[0].content.parts[0].text;
 }
 
-//funções de interface
+function displayMessage(text, type) {
+    const messageDiv = document.createElement('div');
+    messageDiv.classList.add('message', `${type}-message`);
+    messageDiv.innerHTML = text.replace(/\n/g, '<br>');
+
+    chatMessages.appendChild(messageDiv);
+    chatMessages.scollTop = chatMessages.scrollHeight;
+}
+
+function toggleUIState(loading) {
+    isGenerating = loading;
+    userInput.disabled = loading;
+    sendButton.disabled = loading;
+    sendButton.style.opacity = loading ? 0.7 : 1;
+    userInput.value = loading ? 'Gerando resposta...' : '';
+}
+
+userInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        sendMessage();
+    }
+});
+
+sendButton.addEventListener('click', sendMessage);
+
+if (!API_KEY) {
+    displayMessage('Por favor, recarregue a página e insira sua chave API.', 'error');
+    userInput.disabled = true;
+    sendButton.disabled = true;
+}
