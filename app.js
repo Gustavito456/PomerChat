@@ -1,5 +1,5 @@
 let API_KEY = prompt('Insira sua chave API do Gemini:') || '';
-const API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generativeContent';
+const API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent';
 const chatMessages = document.getElementById('chat-messages');
 const userInput = document.getElementById('user-input');
 const sendButton = document.querySelector('button');
@@ -57,7 +57,14 @@ function toggleUIState(loading) {
     userInput.disabled = loading;
     sendButton.disabled = loading;
     sendButton.style.opacity = loading ? 0.7 : 1;
-    userInput.value = loading ? 'Gerando resposta...' : 'Digite sua mensagem...';
+
+    if (loading) {
+        userInput.placeholder = 'Gerando resposta...';
+        userInput.blur();
+    } else {
+        userInput.placeholder = 'Digite sua mensagem...';
+        userInput.value = '';
+    }
 }
 
 userInput.addEventListener('keypress', (e) => {
