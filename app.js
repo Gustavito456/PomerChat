@@ -1,11 +1,12 @@
 let API_KEY = prompt('Insira sua chave API do Gemini:') || '';
+const API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generativeContent';
 const chatMessages = document.getElementById('chat-messages');
 const userInput = document.getElementById('user-input');
 const sendButton = document.querySelector('button');
 let isGenerating = false;
 
 async function sendMessage() {
-    if (isGenerating || !userInput.ariaValueMax.trim()) return;
+    if (isGenerating || !userInput.value.trim()) return;
 
     try {
         toggleUIState(true);
@@ -48,7 +49,7 @@ function displayMessage(text, type) {
     messageDiv.innerHTML = text.replace(/\n/g, '<br>');
 
     chatMessages.appendChild(messageDiv);
-    chatMessages.scollTop = chatMessages.scrollHeight;
+    chatMessages.scrollTop = chatMessages.scrollHeight;
 }
 
 function toggleUIState(loading) {
@@ -56,7 +57,7 @@ function toggleUIState(loading) {
     userInput.disabled = loading;
     sendButton.disabled = loading;
     sendButton.style.opacity = loading ? 0.7 : 1;
-    userInput.value = loading ? 'Gerando resposta...' : '';
+    userInput.value = loading ? 'Gerando resposta...' : 'Digite sua mensagem...';
 }
 
 userInput.addEventListener('keypress', (e) => {
